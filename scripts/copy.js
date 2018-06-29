@@ -1,27 +1,28 @@
 #!/usr/bin/env node
 
-var fs = require("fs-extra");
-var css_dir = "./app/view/public/public/css";
-var js_dir = "./app/view/public/public/js";
-var dist_css_dir = "./app/public/css";
-var dist_js_dir = "./app/public/js";
+let fs = require('fs-extra')
 
-var clean_dir = "./app/view/public/public";
+let cssDir = './app/view/public/public/css'
+let jsDir = './app/view/public/public/js'
+let distCssDir = './app/public/css'
+let distJsDir = './app/public/js'
 
-fs.removeSync(dist_css_dir);
-fs.removeSync(dist_js_dir);
-console.log("clean dist dir success");
+let cleanDir = './app/view/public/public'
 
-fs.copy(css_dir, dist_css_dir, function(error) {
-	if (error) {
-		return console.error(error);
-	}
-	console.log("copy css to dist success");
-	fs.copy(js_dir, dist_js_dir, function(error) {
-		if (error) {
-			return console.error(error);
-		}
-		console.log("copy js to dist dir success");
-		fs.removeSync(clean_dir);
-	});
-});
+fs.removeSync(distCssDir)
+fs.removeSync(distJsDir)
+console.log('clean dist dir success')
+
+fs.copy(cssDir, distCssDir, function(error) {
+  if (error) {
+    return console.error(error)
+  }
+  console.log('copy css to dist success')
+  fs.copy(jsDir, distJsDir, function(error) {
+    if (error) {
+      return console.error(error)
+    }
+    console.log('copy js to dist dir success')
+    fs.removeSync(cleanDir)
+  })
+})

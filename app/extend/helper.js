@@ -1,11 +1,12 @@
-const moment = require("moment");
-exports.relativeTime = time => moment(new Date(time * 1000)).fromNow();
+const moment = require('moment')
+
+exports.relativeTime = time => moment(new Date(time * 1000)).fromNow()
 exports.inarray = (arr, obj) => {
-  var i = arr.length;
+  let i = arr.length
   while (i--) {
     if (arr[i] === obj) {
-      return true;
+      return true
     }
   }
-  return false;
-};
+  return false
+}

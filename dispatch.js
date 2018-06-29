@@ -1,4 +1,4 @@
 const egg = require('egg');
 egg.startCluster({
-  baseDir: __dirname,
+    baseDir: __dirname,
 });
