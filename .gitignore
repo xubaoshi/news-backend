@@ -53,3 +53,5 @@ logs
 run
 app/public/tempUploads
 app/public/uploads
+app/public/css/
+app/public/js/

@@ -8,9 +8,9 @@ exports.mysql = {
     // 用户名
         user: 'root',
     // 密码
-        password: '123123',
+        password: '12345678',
     // 数据库名
-        database: 'testdb'
+        database: 'xubaoshi'
     },
   // 是否加载到 app 上，默认开启
     app: true,
