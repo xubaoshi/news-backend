@@ -4,6 +4,7 @@
 module.exports = app => {
   console.log(app.oAuth2Server)
   app.get('/', 'client.index')
+  app.get('/api/news/list', 'news')
   app.post('/api/upload', app.oAuth2Server.authenticate(), 'uploadfile')
   app.post('/api/file/change', app.oAuth2Server.authenticate(), 'moveTempFile')
 

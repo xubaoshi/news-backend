@@ -4,7 +4,10 @@ export async function query(params) {
 	return request({
 		url: "/api/restql/web_news",
 		method: "GET",
-		data: params
+		data: { 
+			...params,
+			condition:{status:0}
+		}
 	});
 }
 
