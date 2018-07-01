@@ -1,14 +1,16 @@
 module.exports = {
-  name: "Restapi Module",
-  prefix: "fomenyesu",
-  footerText: "Restapi Module 版权所有 © 2017 由 fomenyesu 支持",
+  name: "意适美后台系统",
+  // prefix: "fomenyesu",
+  footerText: "意适美后台系统  版权所有 © 2018",
   logoSrc: "http://127.0.0.1:7001/public/assets/logo.png",
   // logoSrc: './assets/logo.png',
-  logoText: "Restapi Module",
+  logoText: "意适美后台系统",
   needLogin: true,
   iconFontUrl: "http://127.0.0.1:7001/public/assets/znfont.js",
   // iconFontUrl: './assets/znfont.js',
   devBaseURL: "http://127.0.0.1:7001",
   prdBaseURL: "http://127.0.0.1:7001",
-  attachmentURL: "http://127.0.0.1:7001/public/uploads"
+  attachmentURL: "http://127.0.0.1:7001/api/upload",
+  uploadURL:"http://127.0.0.1:7001/public/uploads",
+  tempUploadURL:"http://127.0.0.1:7001/public/tempUploads",
 };

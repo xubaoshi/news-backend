@@ -39,7 +39,7 @@ CREATE TABLE `web_news` (
   `seodesc` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
   `langid` int(11) DEFAULT NULL,
-  `time` int(50) DEFAULT NULL,
+  `time` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(1) DEFAULT '1',
   `tags` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `resource` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '',

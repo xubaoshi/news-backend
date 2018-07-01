@@ -5,6 +5,7 @@ module.exports = app => {
   console.log(app.oAuth2Server)
   app.get('/', 'client.index')
   app.post('/api/upload', app.oAuth2Server.authenticate(), 'uploadfile')
+  app.post('/api/file/change', app.oAuth2Server.authenticate(), 'moveTempFile')
 
   app.get('/api/restql/:res', 'restql.index')
   app.get('/api/restql/:res/:id', 'restql.show')

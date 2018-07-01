@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "dva";
 import TableView from "./TableView";
 import { routerRedux } from "dva/router";
+import moment from "moment";
+import { request } from "../../utils";
 
 import { message } from "antd";
-import { attachmentURL } from "../../utils/config";
 
 const Const = {
-	module: "tableManager"
+	module: "news"
 };
 
 class TableForm extends Component {
@@ -24,38 +25,46 @@ class TableForm extends Component {
 		const id = match.params && match.params.id;
 
 		if (id) {
-			dispatch({ type: "tableForm/loadTable", payload: { id, ...Const } });
+			dispatch({ type: "newsForm/loadTable", payload: { id, ...Const } });
 		}
 	}
 
 	componentWillUnmount() {
 		this.props.dispatch({
-			type: "tableForm/resetState"
+			type: "newsForm/resetState"
 		});
 	}
 
 	goBack() {
-		this.props.dispatch(routerRedux.push({ pathname: "/tableManager" }));
+		this.props.dispatch(routerRedux.push({ pathname: "/news" }));
 	}
-
+	
 	onSubmit(values) {
 		const hide = message.loading("正在保存...", 0);
+		const { dispatch, match } = this.props;
+		const id = match.params && match.params.id;
 
-		this.props.dispatch({
-			type: "tableForm/saveTable",
+		dispatch({
+			type: "newsForm/saveTable",
 			payload: {
 				...this.props,
-				template: values.template,
-				cont: values.cont,
-				template_name: values.template_name,
+				nid: id ? id : undefined,
+				title: values.title,
+				con: values.con,
 				status: values.status,
-				time: values.time,
+				time: moment(values.time).valueOf(),
+				images: values.fileName,
 				...Const,
 				callback: data => {
 					hide();
 
 					if (data && data.success) {
 						message.success("保存成功");
+						request({
+							url: '/api/file/change',
+							method: "post",
+							data: {fileName:values.fileName}
+						});
 						this.goBack();
 					} else {
 						message.error("保存失败");
@@ -69,11 +78,10 @@ class TableForm extends Component {
 		const props = this.props;
 		return (
 			<TableView
-				template={props.template}
-				cont={props.cont}
-				template_name={props.template_name}
+				con={props.con}
+				images={props.images}
 				status={props.status}
-				seotitle={props.seotitle}
+				title={props.title}
 				time={props.time}
 				onSubmit={this.onSubmit.bind(this)}
 			/>
@@ -81,10 +89,9 @@ class TableForm extends Component {
 	}
 }
 
-export default connect(({ tableForm, app }) => {
+export default connect(({ newsForm, app }) => {
 	return {
-		...tableForm,
-		content: tableForm.con,
+		...newsForm,
 		uid: app.user.uid,
 		name: app.user.name
 	};

@@ -23,7 +23,7 @@ const login = ({
       <div className={styles.form}>
         <div className={styles.logo}>
           <img alt={"logo"} src={config.logoSrc} />
-          <span>RestAPI Module</span>
+          <span>{config.logoText}</span>
         </div>
         <form>
           <FormItem hasFeedback>

@@ -31,6 +31,21 @@ const Routers = function({ history, app }) {
       path: "/tableManager/edit/:id",
       models: () => [import("./models/tableForm")],
       component: () => import("./routes/tableManager/TableForm")
+    },
+    {
+      path: "/news",
+      models: () => [import("./models/news")],
+      component: () => import("./routes/news/index")
+    },
+    {
+      path: "/news/create",
+      models: () => [import("./models/newsForm")],
+      component: () => import("./routes/news/newsForm")
+    },
+    {
+      path: "/news/edit/:id",
+      models: () => [import("./models/newsForm")],
+      component: () => import("./routes/news/newsForm")
     }
   ];
 

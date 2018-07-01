@@ -9,17 +9,17 @@ module.exports = function * () {
   const saveFileName = new Date().getTime() + stream.filename
   let filepath = path.join(
     this.app.config.baseDir,
-    `app/public/uploads/${saveFileName}`
+    `app/public/tempUploads/${saveFileName}`
   )
   if (stream.fields.title === 'mock-error') {
     filepath = path.join(
       this.app.config.baseDir,
-      `app/public/uploads/not-exists/dir/${saveFileName}`
+      `app/public/tempUploads/not-exists/dir/${saveFileName}`
     )
   } else if (stream.fields.title === 'mock-read-error') {
     filepath = path.join(
       this.app.config.baseDir,
-      `app/public/uploads/read-error-${saveFileName}`
+      `app/public/tempUploads/read-error-${saveFileName}`
     )
   }
   this.logger.warn('Saving %s to %s', stream.filename, filepath)
