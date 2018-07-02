@@ -1,5 +1,5 @@
 const egg = require('egg');
 egg.startCluster({
-    port: 80, 
+    port: 8989, 
     baseDir: __dirname,
 });
