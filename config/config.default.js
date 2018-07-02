@@ -45,6 +45,7 @@ exports.oAuth2Server = {
 
 exports.static = {
     gzip:true,
+    prefix: '/public/'
 }
 
 
