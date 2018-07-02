@@ -10,7 +10,7 @@
     "build": "webpack  --progress --config ./static/build/webpack.prod.config.js && node ./scripts/copy.js",
     "server": "egg-bin dev",
     "debug": "egg-bin debug",
-    "test": "egg-bin test",
+    "test": "egg-bin test"
   },
   "author": "",
   "license": "ISC",
