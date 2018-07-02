@@ -63,8 +63,6 @@
     "antd": "^2.8.2",
     "co-fs": "^1.2.0",
     "csrf": "^3.0.6",
-    "draft-js-export-html": "0.5.2",
-    "draftjs-to-html": "^0.7.2",
     "dva": "^2.0.1",
     "dva-loading": "^0.2.0",
     "egg": "^2.0.0",
