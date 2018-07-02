@@ -43,4 +43,8 @@ exports.oAuth2Server = {
     expires: 60
 };
 
+exports.static = {
+    gzip:true,
+}
+
 

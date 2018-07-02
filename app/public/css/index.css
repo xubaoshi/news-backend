@@ -10999,6 +10999,9 @@ textarea.ant-pagination-options-quick-jumper input {
 .ant-menu-dark .ant-menu-submenu-title:hover > a {
   color: #108ee9;
 }
+.ant-menu-dark .ant-menu-item-active a {
+  color: #108ee9;
+}
 .ant-menu-dark.ant-menu-inline .ant-menu-item-selected {
   background-color: #494949;
 }
@@ -11011,6 +11014,9 @@ textarea.ant-pagination-options-quick-jumper input {
 }
 .ant-menu-dark .ant-menu-item-selected:hover {
   background-color: #494949;
+}
+.ant-menu-light .ant-menu-item-active a {
+  color: #108ee9;
 }
 .spin___6x3bI .ant-spin-container {
   height: 100vh;

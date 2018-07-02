@@ -56,7 +56,7 @@ const Routers = function({ history, app }) {
           <Route
             exact
             path="/"
-            render={() => <Redirect to="/tableManager" />}
+            render={() => <Redirect to="/news" />}
           />
           {routes.map(({ path, ...dynamics }, key) => (
             <Route

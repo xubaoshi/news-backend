@@ -18,7 +18,7 @@ const postcssBasePlugins = [
 module.exports = {
   entry: {
     index: "./static/src/index.js",
-    vendor: ["react", "react-dom", "whatwg-fetch"]
+    vendor: ["react", "react-dom",]
   },
   output: {
     path: outputPath,
@@ -56,7 +56,7 @@ module.exports = {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ["css-loader", "sass-loader"]
+          use: ["css-loader"]
         })
       },
       {

@@ -184,6 +184,8 @@
     }
   }
 
+  
+
   .main {
     margin-left: 224px;
     overflow: auto;
@@ -242,6 +244,11 @@
       color: @primary-color;
     }
   }
+  .ant-menu-item-active {
+    a {
+      color: @primary-color;
+    }
+  }
 
   &.ant-menu-inline {
     .ant-menu-item-selected {
@@ -259,6 +266,14 @@
 
     &:hover {
       background-color: @dark-half;
+    }
+  }
+}
+
+:global .ant-menu-light {
+  .ant-menu-item-active {
+    a {
+      color: @primary-color;
     }
   }
 }

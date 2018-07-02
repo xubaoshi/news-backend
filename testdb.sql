@@ -57,7 +57,7 @@ CREATE TABLE `web_news` (
 -- ----------------------------
 -- Records of web_news
 -- ----------------------------
-INSERT INTO `web_news` VALUES ('61', 'sdf', '12ddd3', 'news1', '2', '1', '', '', '', '1', '1', '1495013232', '1', '测试标题一', '测试标题一', '0', 'admin', '[\"1495013182585Lighthouse.jpg\"]', null, '20', '', '', '1495013184');
+INSERT INTO `web_news` VALUES ('0', 'sdf', '12ddd3', 'news1', '2', '1', '', '', '', '1', '1', '1495013232', '1', '测试标题一', '测试标题一', '0', 'admin', '[\"1495013182585Lighthouse.jpg\"]', null, '20', '', '', '1495013184');
 
 -- ----------------------------
 -- Table structure for web_newsType

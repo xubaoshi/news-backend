@@ -5,7 +5,9 @@ import { menu } from '../../utils'
 
 const topMenus = menu.map(item => item.key)
 const getMenus = function (menuArray, siderFold, parentPath = '/') {
-  const menuArr = [];
+const menuArr = [];
+const arr = ['/','/news'];
+  
   menuArray.map(item => {
     if (item.isMenuTab !== false) {
       const linkTo = parentPath + item.key;
@@ -18,8 +20,9 @@ const getMenus = function (menuArray, siderFold, parentPath = '/') {
           </Menu.SubMenu>
         )
       } else {
+        const className = arr.includes(linkTo) ? 'ant-menu-item-active' :' '
         menuArr.push(
-          <Menu.Item key={linkTo}>
+          <Menu.Item key={linkTo} className={className}>
 
             <Link to={linkTo}>
               {item.icon ? <Icon type={item.icon} /> : ''}

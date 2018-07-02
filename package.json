@@ -69,6 +69,7 @@
     "egg-mysql": "^2.0.0",
     "egg-security": "^1.8.0",
     "egg-sequelize": "^2.0.1",
+    "egg-static": "^2.1.1",
     "egg-validate": "^1.0.0",
     "egg-view-nunjucks": "^2.0.0",
     "egg-view-react": "^0.0.1",

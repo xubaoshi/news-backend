@@ -94,9 +94,22 @@ class TableView extends Component {
 				file['url'] = tempUploadURL + '/' + file.response.file;
 				file['fileName'] = file.response.file;
 			})
+			this.setState({ fileList })
 		}
-		this.setState({ fileList })
 	}
+
+	// 上传前校验
+  beforeUpload = (file) => {
+    const isFormat = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isFormat) {
+      message.error('图片格式不对!')
+    }
+    const isLt10M = file.size / 1024 / 1024 < 1
+    if (!isLt10M) {
+      message.error('上传的图片不能大于1M!')
+    }
+    return isFormat && isLt10M
+  }
 
 
 	render() {
@@ -196,6 +209,7 @@ class TableView extends Component {
 								onPreview={this.handlePreview}
 								onChange={this.handleChange}
 								headers={{Authorization: Cookie.get("SESSION_TOKEN")}}
+								beforeUpload={this.beforeUpload}
 							>
 								{fileList.length >= 1 ? null : uploadButton}
 							</Upload>
