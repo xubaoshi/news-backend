@@ -18,7 +18,7 @@ const postcssBasePlugins = [
 module.exports = {
   entry: {
     index: "./static/src/index.js",
-    vendor: ["react", "react-dom",]
+    vendor: ["react", "react-dom","react-router","react-countup","react-helmet","moment","axios"]
   },
   output: {
     path: outputPath,
