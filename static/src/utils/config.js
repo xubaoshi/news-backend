@@ -4,8 +4,8 @@
 // var url = "http://64.32.5.133:7001";
 // var devBaseURL = "http://127.0.0.1:7001";
 // var url = "http://127.0.0.1:7001";
-var devBaseURL = "https://xubaoshi.top";
-var url = "https://xubaoshi.top";
+var devBaseURL = "https://www.xubaoshi.top";
+var url = "https://www.xubaoshi.top";
 module.exports = {
   name: "意适美后台系统",
   // prefix: "fomenyesu",
