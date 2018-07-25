@@ -88,8 +88,8 @@ class TableView extends Component {
     });
 	}
 	
-	handleChange = ({ fileList }) => {
-		if (fileList && fileList.length > 0) {
+	handleChange = (e) => {
+		if (e.fileList && e.fileList.length > 0 && e.status === 'done') {
 			fileList.forEach(file => {
 				file['url'] = tempUploadURL + '/' + file.response.file;
 				file['fileName'] = file.response.file;
