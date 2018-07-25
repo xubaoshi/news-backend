@@ -88,14 +88,14 @@ class TableView extends Component {
     });
 	}
 	
-	handleChange = (e) => {
-		if (e.fileList && e.fileList.length > 0 && e.status === 'done') {
+	handleChange = ({ fileList }) => {
+		if (fileList && fileList.length > 0 && fileList[0].status === 'done') {
 			fileList.forEach(file => {
 				file['url'] = tempUploadURL + '/' + file.response.file;
 				file['fileName'] = file.response.file;
 			})
-			this.setState({ fileList })
 		}
+		this.setState({ fileList })
 	}
 
 	// 上传前校验
