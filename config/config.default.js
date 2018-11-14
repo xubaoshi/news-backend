@@ -22,6 +22,8 @@ exports.security = {
         'http://10.180.144.212:8080',
         'http://localhost:8080',
         'http://64.32.5.133:7001',
+        'http://xubaoshi.top',
+        'https://xubaoshi.top',
     ],
     methodnoallow: { enable: false },
     csrf: {

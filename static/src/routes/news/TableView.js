@@ -94,8 +94,8 @@ class TableView extends Component {
 				file['url'] = tempUploadURL + '/' + file.response.file;
 				file['fileName'] = file.response.file;
 			})
-			this.setState({ fileList })
 		}
+		this.setState({ fileList })
 	}
 
 	// 上传前校验
