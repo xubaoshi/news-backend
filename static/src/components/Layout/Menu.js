@@ -4,26 +4,33 @@ import { Link } from 'dva/router'
 import { menu } from '../../utils'
 
 const topMenus = menu.map(item => item.key)
-const getMenus = function (menuArray, siderFold, parentPath = '/') {
-const menuArr = [];
-const arr = ['/','/news'];
-  
+const getMenus = function(menuArray, siderFold, parentPath = '/') {
+  const menuArr = []
+  // const arr = ['/', '/news', '/shopUser']
+
   menuArray.map(item => {
     if (item.isMenuTab !== false) {
-      const linkTo = parentPath + item.key;
-        const subMenus = getMenus(item.child || [], siderFold, `${linkTo}/`);
+      const linkTo = parentPath + item.key
+      const subMenus = getMenus(item.child || [], siderFold, `${linkTo}/`)
 
       if (subMenus && subMenus.length > 0) {
         menuArr.push(
-          <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}>
-            { subMenus }
+          <Menu.SubMenu
+            key={linkTo}
+            title={
+              <span>
+                {item.icon ? <Icon type={item.icon} /> : ''}
+                {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
+              </span>
+            }
+          >
+            {subMenus}
           </Menu.SubMenu>
         )
       } else {
-        const className = arr.includes(linkTo) ? 'ant-menu-item-active' :' '
+        // const className = arr.includes(linkTo) ? 'ant-menu-item-active' : ' '
         menuArr.push(
-          <Menu.Item key={linkTo} className={className}>
-
+          <Menu.Item key={linkTo}>
             <Link to={linkTo}>
               {item.icon ? <Icon type={item.icon} /> : ''}
               {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
@@ -32,24 +39,33 @@ const arr = ['/','/news'];
         )
       }
     }
-  });
+  })
 
-  return menuArr;
+  return menuArr
 }
 
-function Menus ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys, changeOpenKeys }) {
+function Menus({
+  siderFold,
+  darkTheme,
+  location,
+  handleClickNavMenu,
+  navOpenKeys,
+  changeOpenKeys
+}) {
   const menuItems = getMenus(menu, siderFold)
 
-  const getAncestorKeys = (key) => {
+  const getAncestorKeys = key => {
     const map = {
-      '/navigation/navigation2': ['/navigation'],
+      '/navigation/navigation2': ['/navigation']
     }
     return map[key] || []
   }
 
-  const onOpenChange = (openKeys) => {
+  const onOpenChange = openKeys => {
     const latestOpenKey = openKeys.find(key => !(navOpenKeys.indexOf(key) > -1))
-    const latestCloseKey = navOpenKeys.find(key => !(openKeys.indexOf(key) > -1))
+    const latestCloseKey = navOpenKeys.find(
+      key => !(openKeys.indexOf(key) > -1)
+    )
     let nextOpenKeys = []
     if (latestOpenKey) {
       nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey)
@@ -60,10 +76,12 @@ function Menus ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKey
     changeOpenKeys(nextOpenKeys)
   }
   // 菜单栏收起时，不能操作openKeys
-  let menuProps = !siderFold ? {
-    onOpenChange,
-    openKeys: navOpenKeys,
-  } : {}
+  let menuProps = !siderFold
+    ? {
+        onOpenChange,
+        openKeys: navOpenKeys
+      }
+    : {}
 
   return (
     <Menu
@@ -71,7 +89,9 @@ function Menus ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKey
       mode={siderFold ? 'vertical' : 'inline'}
       theme={darkTheme ? 'dark' : 'light'}
       onClick={handleClickNavMenu}
-      defaultSelectedKeys={[location.pathname !== '/' ? location.pathname : '/']}
+      defaultSelectedKeys={[
+        location.pathname !== '/' ? location.pathname : '/'
+      ]}
     >
       {menuItems}
     </Menu>
@@ -85,7 +105,7 @@ Menus.propTypes = {
   isNavbar: PropTypes.bool,
   handleClickNavMenu: PropTypes.func,
   navOpenKeys: PropTypes.array,
-  changeOpenKeys: PropTypes.func,
+  changeOpenKeys: PropTypes.func
 }
 
 export default Menus

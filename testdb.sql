@@ -20,11 +20,52 @@ CREATE TABLE `web_provinces` (
  DROP TABLE IF EXISTS `web_cities`;
  CREATE TABLE `web_cities` (
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `cityid` char(6) NOT NULL COMMENT '城市编码',
+   `cityid` char(11) NOT NULL COMMENT '城市编码',
    `city` varchar(40) NOT NULL COMMENT '城市名称',
-   `provinceid` char(6) NOT NULL COMMENT '所属省份编码',
+   `provinceid` char(11) NOT NULL COMMENT '所属省份编码',
    PRIMARY KEY (`id`)
  ) ENGINE=InnoDB AUTO_INCREMENT=346 DEFAULT CHARSET=utf8 COMMENT='城市信息表';
+
+  /*-- web_shop_user */
+ DROP TABLE IF EXISTS `web_shop_user`;
+ CREATE TABLE `web_shop_user` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   `name` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '姓名',
+   `shopName` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '店铺名称',
+   `cityid` char(11) NOT NULL COMMENT '城市id',
+   `cityName` varchar(40) NOT NULL COMMENT '城市名称',
+   `provinceid` char(11) NOT NULL COMMENT '所属省份id',
+   `provincename` varchar(40) NOT NULL COMMENT '所属省份名称',
+   `picurl` text NOT NULL COMMENT '图片',
+    PRIMARY KEY (`id`),
+ ) ENGINE=InnoDB AUTO_INCREMENT=347 DEFAULT CHARSET=utf8 COMMENT='人员信息表';
+
+
+/*-- web_shop_user */
+DROP TABLE IF EXISTS `web_shop_user`;
+CREATE TABLE `web_shop_user` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shopName` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cityid` int(11) DEFAULT NULL,
+  `cityName` varchar(40) NOT NULL,
+  `provinceid` int(11) DEFAULT NULL,
+  `provincename` varchar(40) NOT NULL,
+  `images` text COLLATE utf8mb4_unicode_ci,
+  `createtime` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `updatetime` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+/*-- web_banner */
+DROP TABLE IF EXISTS `web_banner`;
+CREATE TABLE `web_banner` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `images` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
  
  /*-- web_provinces data */
 INSERT INTO `web_provinces` VALUES ('1', '110000', '北京市'); 

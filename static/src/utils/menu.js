@@ -68,6 +68,39 @@ module.exports = [
         clickable: false
       }
     ]
+  },
+  {
+    key: 'shopUser',
+    name: '人员管理',
+    icon: 'user',
+    child: [
+      {
+        key: 'create',
+        name: '新建人员',
+        icon: 'file',
+        isMenuTab: false,
+        clickable: false
+      },
+      {
+        key: 'edit',
+        name: '修改人员',
+        icon: 'laptop',
+        isMenuTab: false,
+        clickable: false
+      },
+      {
+        key: 'info',
+        name: '人员详情',
+        icon: 'setting',
+        isMenuTab: false,
+        clickable: false
+      }
+    ]
+  },
+  {
+    key: 'banner',
+    name: 'banner 管理',
+    icon: 'camera-o'
   }
 ]
 // icon: 'laptop',
