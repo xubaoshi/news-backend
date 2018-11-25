@@ -1,6 +1,6 @@
 module.exports = app => {
   class TableinfoService extends app.Service {
-    * index() {
+    *index() {
       const queryStr = 'show tables;'
       let result = []
       let record = yield this.app.mysql.query(queryStr, '')
@@ -11,13 +11,13 @@ module.exports = app => {
       }
       return result
     }
-    * show(params) {
+    *show(params) {
       const tableName = params.res
       const queryStr = `desc ${tableName};`
       let record = yield this.app.mysql.query(queryStr, '')
       return record
     }
-    * primaryKey(tableName) {
+    *primaryKey(tableName) {
       const queryStr = `desc ${tableName};`
       let record = yield this.app.mysql.query(queryStr, '')
       let result = ''
@@ -28,7 +28,7 @@ module.exports = app => {
       }
       return result
     }
-    * create(request) {
+    *create(request) {
       // 建立新表
       const tableName = request.tableName
       const requestData = request.data
@@ -63,7 +63,7 @@ module.exports = app => {
       let record = yield this.app.mysql.query(queryStr, '')
       return record
     }
-    * destroy(params) {
+    *destroy(params) {
       const tableName = params.res.split(',')
       let queryStr = ''
       let record = null

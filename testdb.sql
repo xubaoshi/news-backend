@@ -1,4 +1,7 @@
 
+select @@global.sql_mode;
+set @@global.sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -11,7 +14,7 @@ CREATE TABLE `web_provinces` (
    `provinceid` int(11) NOT NULL,
    `province` varchar(100) NOT NULL DEFAULT '',
    PRIMARY KEY (`id`)
- ) ENGINE=MyISAM AUTO_INCREMENT=392 DEFAULT CHARSET=utf8;
+ ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for web_cities
@@ -24,38 +27,25 @@ CREATE TABLE `web_provinces` (
    `city` varchar(40) NOT NULL COMMENT '城市名称',
    `provinceid` char(11) NOT NULL COMMENT '所属省份编码',
    PRIMARY KEY (`id`)
- ) ENGINE=InnoDB AUTO_INCREMENT=346 DEFAULT CHARSET=utf8 COMMENT='城市信息表';
+ ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='城市信息表';
 
   /*-- web_shop_user */
- DROP TABLE IF EXISTS `web_shop_user`;
- CREATE TABLE `web_shop_user` (
-   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `name` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '姓名',
-   `shopName` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '店铺名称',
-   `cityid` char(11) NOT NULL COMMENT '城市id',
-   `cityName` varchar(40) NOT NULL COMMENT '城市名称',
-   `provinceid` char(11) NOT NULL COMMENT '所属省份id',
-   `provincename` varchar(40) NOT NULL COMMENT '所属省份名称',
-   `picurl` text NOT NULL COMMENT '图片',
-    PRIMARY KEY (`id`),
- ) ENGINE=InnoDB AUTO_INCREMENT=347 DEFAULT CHARSET=utf8 COMMENT='人员信息表';
-
 
 /*-- web_shop_user */
 DROP TABLE IF EXISTS `web_shop_user`;
 CREATE TABLE `web_shop_user` (
   `nid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `shopName` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shopname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cityid` int(11) DEFAULT NULL,
-  `cityName` varchar(40) NOT NULL,
+  `cityname` varchar(40) NOT NULL,
   `provinceid` int(11) DEFAULT NULL,
   `provincename` varchar(40) NOT NULL,
   `images` text COLLATE utf8mb4_unicode_ci,
-  `createtime` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `updatetime` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(1) DEFAULT '1',
+  `time` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 /*-- web_banner */
@@ -64,7 +54,8 @@ CREATE TABLE `web_banner` (
   `nid` int(11) NOT NULL AUTO_INCREMENT,
   `images` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `web_banner` (`nid`,`images`) VALUES (1,NULL);
 
  
  /*-- web_provinces data */
@@ -465,7 +456,7 @@ CREATE TABLE `web_admin` (
   `clientId` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of web_admin
@@ -501,7 +492,7 @@ CREATE TABLE `web_news` (
   `location` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `publishTime` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of web_news
@@ -521,7 +512,7 @@ CREATE TABLE `web_newsType` (
   `time` int(11) DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
   PRIMARY KEY (`tid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of web_newsType
@@ -542,7 +533,7 @@ CREATE TABLE `web_node` (
   `cont` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_tempalte` (`template`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of web_node

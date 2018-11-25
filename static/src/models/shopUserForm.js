@@ -1,73 +1,93 @@
-import {
-	loadNew,
-	update,
-	save,
-} from "../services/newsForm";
+import { loadShopUser, update, save, loadCitys } from '../services/shopUserForm'
 
 const initState = {
-	id: "",
-	images: "",
-	title: "",
-	con: "",
-	status: 1,
-	time: ""
-};
+  id: '',
+  name: '',
+  shopname: '',
+  cityid: undefined,
+  provinceid: undefined,
+  images: '',
+  status: 1,
+  citys: []
+}
 
 export default {
-	namespace: "newsForm",
+  namespace: 'shopUserForm',
 
-	state: {
-		...initState
-	},
+  state: {
+    ...initState
+  },
 
-	effects: {
-		*loadTable({ payload }, { call, put }) {
-			const data = yield call(loadNew, payload);
-			if (data && data.success) {
-				yield put({ type: "loadTableSuccess", payload: data });
-			}
-		},
+  effects: {
+    *loadCitys({ payload }, { call, put }) {
+      const data = yield call(loadCitys, payload)
+      if (data && data.success) {
+        yield put({ type: 'loadCitySuccess', payload: data })
+      }
+    },
 
-		*saveTable({ payload }, { call, put }) {
-			let data = null,
-				tableData = null;
-			const callback = payload.callback;
-			delete payload.callback;
-			console.log("payload", payload);
-			const params = {
-				title: payload.title || "",
-				con: payload.con || "",
-				status: payload.status || 0,
-				time: payload.time,
-				images :payload.images,
-			};
+    *loadTable({ payload }, { call, put }) {
+      const data = yield call(loadShopUser, payload)
+      if (data && data.success) {
+        yield put({ type: 'loadTableSuccess', payload: data })
+      }
+    },
 
-			if (payload.nid) {
-				params.nid = payload.nid;
-				data = yield call(update, params);
-			} else {
-				data = yield call(save, params);
-			}
+    *saveTable({ payload }, { call, put }) {
+      let data = null,
+        tableData = null
+      const callback = payload.callback
+      delete payload.callback
+      console.log('payload', payload)
+      const params = {
+        name: payload.name || '',
+        shopname: payload.shopname || '',
+        status: payload.status || 0,
+        provinceid: payload.provinceid,
+        cityid: payload.cityid,
+        provincename: payload.provincename,
+        cityname: payload.cityname,
+        images: payload.images,
+        time: payload.time
+      }
 
-			yield put({ type: "loadTableSuccess", payload: data });
-			callback && callback(data);
-		},
-	},
+      if (payload.nid) {
+        params.nid = payload.nid
+        data = yield call(update, params)
+      } else {
+        data = yield call(save, params)
+      }
 
-	reducers: {
-		resetState(state) {
-			return { ...state, ...initState };
-		},
+      yield put({ type: 'loadTableSuccess', payload: data })
+      callback && callback(data)
+    }
+  },
 
-		loadTableSuccess(state, action) {
-			const data = action.payload && action.payload.data;
-			if (data) {
-				return {
-					...state,
-					...data,
-				};
-			}
-			return state;
-		}
-	}
-};
+  reducers: {
+    resetState(state) {
+      return { ...state, ...initState }
+    },
+
+    loadCitySuccess(state, action) {
+      const data = action.payload && action.payload.data
+      if (data) {
+        return {
+          ...state,
+          citys: data
+        }
+      }
+      return state
+    },
+
+    loadTableSuccess(state, action) {
+      const data = action.payload && action.payload.data
+      if (data) {
+        return {
+          ...state,
+          ...data
+        }
+      }
+      return state
+    }
+  }
+}

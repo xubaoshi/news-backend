@@ -8,18 +8,12 @@ import styles from './index.less'
 const columns = [
   { title: '序号', dataIndex: 'nid' },
   { title: '姓名', dataIndex: 'name' },
-  { title: '店名', dataIndex: 'shopName' },
-  { title: '城市', dataIndex: 'cityName' },
+  { title: '所属分店', dataIndex: 'shopname' },
+  { title: '所属城市', dataIndex: 'cityname' },
+  { title: '状态', dataIndex: 'status' },
   {
     title: '添加时间',
-    dataIndex: 'createTime',
-    render: (text, row) => {
-      return moment(parseInt(text)).format('YYYY-MM-DD HH:mm:ss')
-    }
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'updateTime',
+    dataIndex: 'time',
     render: (text, row) => {
       return moment(parseInt(text)).format('YYYY-MM-DD HH:mm:ss')
     }
@@ -54,6 +48,16 @@ class TableManager extends Component {
         </div>
       )
     }
+    columns[len - 3].render = (text, record) => {
+      return (
+        <Switch
+          checked={record.status === 1}
+          onChange={this.changeTableManagerState.bind(this, record)}
+          checkedChildren={'开'}
+          unCheckedChildren={'关'}
+        />
+      )
+    }
   }
 
   componentDidMount() {
@@ -62,7 +66,7 @@ class TableManager extends Component {
 
   loadTableData(page = 1, pageSize = 10) {
     this.props.dispatch({
-      type: 'news/loadNews',
+      type: 'shopUser/loadShopUser',
       payload: { page, pageSize }
     })
   }
@@ -73,16 +77,18 @@ class TableManager extends Component {
 
   selectRow(selectedRowKeys) {
     this.props.dispatch({
-      type: 'news/selectedRowKeys',
+      type: 'shopUser/selectedRowKeys',
       payload: { selectedRowKeys }
     })
   }
 
   toTableManagerForm(id) {
     if (id) {
-      this.props.dispatch(routerRedux.push({ pathname: `/news/edit/${id}` }))
+      this.props.dispatch(
+        routerRedux.push({ pathname: `/shopUser/edit/${id}` })
+      )
     } else {
-      this.props.dispatch(routerRedux.push({ pathname: '/news/create' }))
+      this.props.dispatch(routerRedux.push({ pathname: '/shopUser/create' }))
     }
   }
 
@@ -90,7 +96,7 @@ class TableManager extends Component {
     console.log('switchChange', record)
     const status = record.status === 1 ? 0 : 1
     this.props.dispatch({
-      type: 'news/updateNew',
+      type: 'shopUser/updateShopUser',
       payload: {
         ...record,
         status,
@@ -113,7 +119,7 @@ class TableManager extends Component {
             }
           })
           this.props.dispatch({
-            type: 'news/removeNew',
+            type: 'shopUser/removeShopUser',
             payload: {
               selectedRowKeys: this.props.selectedRowKeys,
               templateArr
@@ -175,12 +181,12 @@ class TableManager extends Component {
   }
 }
 
-export default connect(({ news }) => {
+export default connect(({ shopUser }) => {
   return {
-    list: news.list,
-    loading: news.loading,
-    total: news.total,
-    selectedRowKeys: news.selectedRowKeys,
-    pagination: news.pagination
+    list: shopUser.list,
+    loading: shopUser.loading,
+    total: shopUser.total,
+    selectedRowKeys: shopUser.selectedRowKeys,
+    pagination: shopUser.pagination
   }
 })(TableManager)

@@ -1,10 +1,10 @@
 // 官网新闻动态接口
-module.exports = function * () {
+module.exports = function*() {
   const response = { success: false, message: '操作失败' }
-  let res = 'web_news'
+  let res = 'web_banner'
   const tableList = yield this.service.tableinfo.index()
   if (res && this.helper.inarray(tableList, res)) {
-    const result = yield this.service.restql.index(res, {},{status:1})
+    const result = yield this.service.restql.index(res, {}, { status: 1 })
     if (result) {
       response.message = '操作成功'
       response.success = true

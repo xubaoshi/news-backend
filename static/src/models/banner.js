@@ -1,73 +1,52 @@
-import {
-	loadNew,
-	update,
-	save,
-} from "../services/newsForm";
+import { loadBanners, update } from '../services/banner'
 
 const initState = {
-	id: "",
-	images: "",
-	title: "",
-	con: "",
-	status: 1,
-	time: ""
-};
+  images: ''
+}
 
 export default {
-	namespace: "newsForm",
+  namespace: 'banner',
 
-	state: {
-		...initState
-	},
+  state: {
+    ...initState
+  },
 
-	effects: {
-		*loadTable({ payload }, { call, put }) {
-			const data = yield call(loadNew, payload);
-			if (data && data.success) {
-				yield put({ type: "loadTableSuccess", payload: data });
-			}
-		},
+  effects: {
+    *loadTable({ payload }, { call, put }) {
+      const data = yield call(loadBanners, payload)
+      if (data && data.success) {
+        yield put({ type: 'loadTableSuccess', payload: data })
+      }
+    },
 
-		*saveTable({ payload }, { call, put }) {
-			let data = null,
-				tableData = null;
-			const callback = payload.callback;
-			delete payload.callback;
-			console.log("payload", payload);
-			const params = {
-				title: payload.title || "",
-				con: payload.con || "",
-				status: payload.status || 0,
-				time: payload.time,
-				images :payload.images,
-			};
+    *saveTable({ payload }, { call, put }) {
+      let data = null
+      const callback = payload.callback
+      delete payload.callback
+      const params = {
+        nid: 1,
+        images: payload.images
+      }
+      data = yield call(update, params)
+      yield put({ type: 'loadTableSuccess', payload: data })
+      callback && callback(data)
+    }
+  },
 
-			if (payload.nid) {
-				params.nid = payload.nid;
-				data = yield call(update, params);
-			} else {
-				data = yield call(save, params);
-			}
+  reducers: {
+    resetState(state) {
+      return { ...state, ...initState }
+    },
 
-			yield put({ type: "loadTableSuccess", payload: data });
-			callback && callback(data);
-		},
-	},
-
-	reducers: {
-		resetState(state) {
-			return { ...state, ...initState };
-		},
-
-		loadTableSuccess(state, action) {
-			const data = action.payload && action.payload.data;
-			if (data) {
-				return {
-					...state,
-					...data,
-				};
-			}
-			return state;
-		}
-	}
-};
+    loadTableSuccess(state, action) {
+      const data = action.payload && action.payload.data
+      if (data) {
+        return {
+          ...state,
+          images: data
+        }
+      }
+      return state
+    }
+  }
+}

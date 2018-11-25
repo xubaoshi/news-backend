@@ -1,198 +1,208 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "dva";
-import { Table, Button, Modal, Switch, Popover } from "antd";
-import moment from "moment";
-import { routerRedux } from "dva/router";
-import styles from "./index.less";
+import React, { Component, PropTypes } from 'react'
+import {
+  Input,
+  Form,
+  Button,
+  Upload,
+  Icon,
+  message,
+  Switch,
+  Modal,
+  Cascader
+} from 'antd'
+import moment from 'moment'
+import { connect } from 'dva'
+import Cookie from '../../utils/js.cookie'
+import { attachmentURL, uploadURL, tempUploadURL } from '../../utils/config'
+import { request } from '../../utils'
 
-const columns = [
-	{ title: "序号", dataIndex: "nid" },
-	{ title: "标题", dataIndex: "title" },
-	{ title: "时间", dataIndex: "time" ,render: (text, row) => {
-		return moment(parseInt(text)).format('YYYY年MM月DD日')
-	}},
-	{ title: "内容", dataIndex: "con" ,
-	render: (text) => {
-		return (
-			<Popover
-				content = {<div className={styles.pop}>{text}</div>}
-				title = '内容'
-			>
-				<span>{text && text.length > 30 ? `${text.substring(0, 30)}...` : text}</span>
-			</Popover>)
-	}},
-	{ title: "状态", dataIndex: "status" },
-	{ title: "操作", width: 150 }
-];
+const FormItem = Form.Item
+class TableView extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
 
-const linkStyle = {
-	display: "inline-block",
-	padding: "0 10px",
-	cursor: "pointer"
-};
+  constructor(props) {
+    super(props)
+    this.state = {
+      previewVisible: false,
+      previewImage: '',
+      fileList: [],
+      hasInt: false
+    }
+  }
 
-class TableManager extends Component {
-	static contextTypes = {
-		router: PropTypes.object
-	};
+  componentWillReceiveProps(nextProps) {
+    const { hasInt, fileList } = this.state
+    if (!hasInt && nextProps.images) {
+      nextProps.images &&
+        nextProps.images.split(',').forEach(item => {
+          fileList.push({
+            uid: item,
+            name: item,
+            fileName: item,
+            status: 'done',
+            url: `${uploadURL}/${item}`
+          })
+        })
 
-	constructor(props, context) {
-		super(props, context);
+      this.setState({
+        fileList,
+        hasInt: true
+      })
+    }
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'banner/loadTable',
+      payload: { nid: 1 }
+    })
+  }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'banner/resetState'
+    })
+  }
 
-		const len = columns.length;
-		columns[len - 1].render = (text, record, index) => {
-			return (
-				<div>
-					<span
-						onClick={this.toTableManagerForm.bind(this, record.nid)}
-						style={linkStyle}
-					>
-						编辑
-					</span>
-				</div>
-			);
-		};
-		columns[len - 2].render = (text, record) => {
-			return (
-				<Switch
-					checked={text === 1}
-					onChange={this.changeTableManagerState.bind(this, record)}
-					checkedChildren={"开"}
-					unCheckedChildren={"关"}
-				/>
-			);
-		};
-	}
+  onSubmit(e) {
+    const { fileList } = this.state
+    e.preventDefault()
+    if (fileList.length !== 3) {
+      message.error('请上传3张图片！')
+      return
+    }
+    const fileNames = fileList
+      .map(item => {
+        return item.fileName || item.response.file
+      })
+      .join(',')
+    this.props.dispatch({
+      type: 'banner/saveTable',
+      payload: {
+        images: fileNames,
+        callback: data => {
+          if (data && data.success) {
+            message.success('保存成功')
+            request({
+              url: '/api/file/change',
+              method: 'post',
+              data: { fileName: fileNames }
+            })
+          } else {
+            message.error('保存失败')
+          }
+        }
+      }
+    })
+  }
 
-	componentDidMount() {
-		this.loadTableData();
-	}
+  handleCancel = () => this.setState({ previewVisible: false })
 
-	loadTableData(page = 1, pageSize = 10) {
-		this.props.dispatch({
-			type: "news/loadNews",
-			payload: { page, pageSize }
-		});
-	}
+  handlePreview = file => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true
+    })
+  }
 
-	tableChange(pagination) {
-		this.loadTableData(pagination.current, pagination.pageSize);
-	}
+  handleChange = ({ fileList }) => {
+    this.setState({ fileList })
+  }
 
-	selectRow(selectedRowKeys) {
-		this.props.dispatch({
-			type: "news/selectedRowKeys",
-			payload: { selectedRowKeys }
-		});
-	}
+  // 上传前校验
+  beforeUpload = file => {
+    const isFormat =
+      file.type === 'image/jpg' ||
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png'
+    if (!isFormat) {
+      message.error('图片格式不对!')
+    }
+    const isLt10M = file.size / 1024 / 1024 < 1
+    if (!isLt10M) {
+      message.error('上传的图片不能大于1M!')
+    }
+    return isFormat && isLt10M
+  }
 
-	toTableManagerForm(id) {
-		if (id) {
-			this.props.dispatch(
-				routerRedux.push({ pathname: `/news/edit/${id}` })
-			);
-		} else {
-			this.props.dispatch(
-				routerRedux.push({ pathname: "/news/create" })
-			);
-		}
-	}
+  handleCityChange = value => {
+    this.setState({
+      selectedCity: value
+    })
+  }
 
-	changeTableManagerState(record) {
-		console.log("switchChange", record);
-		const status = record.status === 1 ? 0 : 1;
-		this.props.dispatch({
-			type: "news/updateNew",
-			payload: {
-				...record,
-				status,
-				page: this.props.pagination.current,
-				pageSize: this.props.pagination.pageSize
-			}
-		});
-	}
+  render() {
+    const { getFieldDecorator } = this.props.form
+    const { previewVisible, previewImage, fileList } = this.state
+    const formItemLayout = {
+      labelCol: { span: 3 },
+      wrapperCol: { span: 12 }
+    }
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    )
 
-	deleteTableManager() {
-		if (this.props.selectedRowKeys.length > 0) {
-			Modal.confirm({
-				title: "确定要删除所选数据?",
-				content: "点击确定，数据则被删除",
-				onOk: () => {
-					let templateArr = [];
-					this.props.list.forEach((v, index) => {
-						if (this.props.selectedRowKeys.indexOf(v.nid) !== -1) {
-							templateArr.push(v.template);
-						}
-					});
-					this.props.dispatch({
-						type: "news/removeNew",
-						payload: {
-							selectedRowKeys: this.props.selectedRowKeys,
-							templateArr
-						}
-					});
-				}
-			});
-		} else {
-			Modal.warning({
-				title: "未选中任何数据",
-				content: "请选择要删除的数据"
-			});
-		}
-	}
+    return (
+      <div className="content-inner">
+        <div
+          style={{
+            borderBottom: '1px solid #ddd',
+            marginBottom: 20,
+            paddingBottom: 10
+          }}
+        >
+          <Button type="primary" onClick={this.onSubmit.bind(this)}>
+            确认
+          </Button>
+        </div>
 
-	render() {
-		const rowSelection = {
-			selectedRowKeys: this.props.selectedRowKeys,
-			onChange: this.selectRow.bind(this)
-		};
-
-		const pagination = {
-			showTotal: total => `共${total}条数据`,
-			showSizeChanger: true,
-			showQuickJumper: true,
-			...this.props.pagination
-		};
-
-		return (
-			<div className="content-inner">
-				<div
-					style={{
-						paddingBottom: 10,
-						marginBottom: 20,
-						borderBottom: "1px solid #ddd"
-					}}
-				>
-					<Button
-						onClick={this.toTableManagerForm.bind(this, 0)}
-						style={{ marginRight: 10 }}
-					>
-						新增
-					</Button>
-					<Button onClick={this.deleteTableManager.bind(this)}>删除</Button>
-				</div>
-
-				<Table
-					columns={columns}
-					rowSelection={rowSelection}
-					pagination={pagination}
-					dataSource={this.props.list}
-					rowKey="nid"
-					loading={this.props.loading}
-					bordered
-					onChange={this.tableChange.bind(this)}
-				/>
-			</div>
-		);
-	}
+        <Form>
+          <FormItem {...formItemLayout} label="banner">
+            {getFieldDecorator('images', {
+              initialValue: ['11'],
+              rules: [
+                {
+                  required: true
+                }
+              ]
+            })(
+              <div>
+                <Upload
+                  action={attachmentURL}
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={this.handlePreview}
+                  onChange={this.handleChange}
+                  headers={{ Authorization: Cookie.get('SESSION_TOKEN') }}
+                  beforeUpload={this.beforeUpload}
+                >
+                  {fileList.length >= 3 ? null : uploadButton}
+                </Upload>
+                <Modal
+                  visible={previewVisible}
+                  footer={null}
+                  onCancel={this.handleCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{ width: '100%' }}
+                    src={previewImage}
+                  />
+                </Modal>
+              </div>
+            )}
+          </FormItem>
+        </Form>
+      </div>
+    )
+  }
 }
 
-export default connect(({ news }) => {
-	return {
-		list: news.list,
-		loading: news.loading,
-		total: news.total,
-		selectedRowKeys: news.selectedRowKeys,
-		pagination: news.pagination
-	};
-})(TableManager);
+export default connect(({ banner }) => {
+  return {
+    images: banner.images ? banner.images.images : ''
+  }
+})(Form.create()(TableView))

@@ -61,6 +61,11 @@ const Routers = function({ history, app }) {
       path: '/shopUser/edit/:id',
       models: () => [import('./models/shopUserForm')],
       component: () => import('./routes/shopUser/shopUserForm')
+    },
+    {
+      path: '/banner',
+      models: () => [import('./models/banner')],
+      component: () => import('./routes/banner/index')
     }
   ]
 
