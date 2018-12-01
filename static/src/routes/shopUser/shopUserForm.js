@@ -58,6 +58,7 @@ class TableForm extends Component {
         cityname: values.cityname,
         status: values.status,
         images: values.fileName,
+        area: values.area,
         time: moment(values.time).valueOf(),
         ...Const,
         callback: data => {
@@ -87,6 +88,7 @@ class TableForm extends Component {
         images={props.images}
         status={props.status}
         shopname={props.shopname}
+        area={props.area}
         citys={props.citys}
         selectedCity={
           props.provinceid

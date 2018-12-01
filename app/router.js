@@ -5,6 +5,8 @@ module.exports = app => {
   app.get('/', 'client.index')
   app.get('/api/news/list', 'news')
   app.get('/api/banner/list', 'banner')
+  app.get('/api/shopUser/list', 'shopUser.list')
+  app.get('/api/shopCity/list', 'shopUser.cityList')
   app.post('/api/upload', app.oAuth2Server.authenticate(), 'uploadfile')
   app.post('/api/file/change', app.oAuth2Server.authenticate(), 'moveTempFile')
   app.get('/api/citys', app.oAuth2Server.authenticate(), 'city')

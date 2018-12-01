@@ -3,6 +3,7 @@ import { loadShopUser, update, save, loadCitys } from '../services/shopUserForm'
 const initState = {
   id: '',
   name: '',
+  area: '',
   shopname: '',
   cityid: undefined,
   provinceid: undefined,
@@ -48,7 +49,8 @@ export default {
         provincename: payload.provincename,
         cityname: payload.cityname,
         images: payload.images,
-        time: payload.time
+        time: payload.time,
+        area: payload.area
       }
 
       if (payload.nid) {

@@ -182,6 +182,11 @@ class TableView extends Component {
               ]
             })(<Input placeholder="请输入姓名" maxLength="10" />)}
           </FormItem>
+          <FormItem {...formItemLayout} label="地区">
+            {getFieldDecorator('area', {
+              initialValue: this.props.area || undefined
+            })(<Input placeholder="请输入地区" maxLength="50" />)}
+          </FormItem>
           <FormItem {...formItemLayout} label="城市">
             {getFieldDecorator('selectedCity', {
               initialValue: this.props.selectedCity || undefined,

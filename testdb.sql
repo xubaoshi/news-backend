@@ -37,6 +37,7 @@ CREATE TABLE `web_shop_user` (
   `nid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shopname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `area` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cityid` int(11) DEFAULT NULL,
   `cityname` varchar(40) NOT NULL,
   `provinceid` int(11) DEFAULT NULL,
