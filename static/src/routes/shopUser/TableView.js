@@ -125,9 +125,9 @@ class TableView extends Component {
     if (!isFormat) {
       message.error('图片格式不对!')
     }
-    const isLt10M = file.size / 1024 / 1024 < 1
+    const isLt10M = file.size / 1024 / 1024 < 2
     if (!isLt10M) {
-      message.error('上传的图片不能大于1M!')
+      message.error('上传的图片不能大于2M!')
     }
     return isFormat && isLt10M
   }

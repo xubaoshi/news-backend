@@ -23,6 +23,7 @@ exports.security = {
         'http://localhost:8080',
         'http://64.32.5.133:7001',
         'http://xubaoshi.top',
+        'http://www.insmile.cn',
         'https://xubaoshi.top',
     ],
     methodnoallow: { enable: false },
