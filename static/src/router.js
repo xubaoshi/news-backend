@@ -49,7 +49,10 @@ const Routers = function({ history, app }) {
     },
     {
       path: '/shopUser',
-      models: () => [import('./models/shopUser')],
+      models: () => [
+        import('./models/shopUser'),
+        import('./models/shopUserForm')
+      ],
       component: () => import('./routes/shopUser/index')
     },
     {

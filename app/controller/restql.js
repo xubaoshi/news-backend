@@ -1,10 +1,17 @@
 // 1 获取内容列表，分页，每页几个
-exports.index = function * () {
+exports.index = function*() {
   const response = { success: false, message: '操作失败' }
   let res = this.params.res
   const tableList = yield this.service.tableinfo.index()
   if (res && this.helper.inarray(tableList, res)) {
-    const result = yield this.service.restql.index(res, this.query)
+    console.log(this.query)
+    const result = yield this.service.restql.index(
+      res,
+      this.query,
+      this.query.condition && JSON.parse(this.query.condition)
+        ? JSON.parse(this.query.condition)
+        : {}
+    )
     if (result) {
       response.message = '操作成功'
       response.success = true
@@ -15,7 +22,7 @@ exports.index = function * () {
   this.status = 200
 }
 // 2 根据ID获取内容信息
-exports.show = function * () {
+exports.show = function*() {
   const response = { success: false, message: '操作失败' }
   let res = this.params.res
   delete this.params.res
@@ -38,7 +45,7 @@ exports.show = function * () {
 }
 
 // 3 创建内容
-exports.create = function * () {
+exports.create = function*() {
   const response = { success: false, message: '操作失败' }
   let res = this.params.res
   const tableList = yield this.service.tableinfo.index()
@@ -56,7 +63,7 @@ exports.create = function * () {
   this.status = 200
 }
 // 4 更新内容信息
-exports.update = function * () {
+exports.update = function*() {
   const response = { success: false, message: '操作失败' }
   let res = this.params.res
   const tableList = yield this.service.tableinfo.index()
@@ -77,7 +84,7 @@ exports.update = function * () {
 }
 
 // 5 删除内容信息
-exports.destroy = function * () {
+exports.destroy = function*() {
   const response = { success: false, message: '操作失败' }
   let res = this.params.res
   const tableList = yield this.service.tableinfo.index()

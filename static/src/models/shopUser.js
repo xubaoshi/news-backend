@@ -7,6 +7,7 @@ export default {
     list: [],
     selectedRowKeys: [],
     loading: false,
+    cityid: '',
     pagination: {
       current: 1,
       pageSize: 10,
@@ -17,8 +18,11 @@ export default {
   effects: {
     *loadShopUser({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      // payload.sortField = 'time'
-      // payload.sortOrder = 'desc'
+      payload.sortField = 'time'
+      payload.sortOrder = 'desc'
+      if (payload.cityid) {
+        payload['condition'] = JSON.stringify({ cityid: payload.cityid })
+      }
       const data = yield call(query, payload)
       yield put({
         type: 'loadTableManagerSuccess',

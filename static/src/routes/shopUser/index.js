@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'dva'
-import { Table, Button, Modal, Switch, Popover } from 'antd'
+import { Table, Button, Modal, Switch, Popover, Form, Cascader } from 'antd'
 import moment from 'moment'
 import { routerRedux } from 'dva/router'
 import styles from './index.less'
-
+const FormItem = Form.Item
 const columns = [
   { title: '序号', dataIndex: 'nid' },
   { title: '姓名', dataIndex: 'name' },
@@ -34,6 +34,7 @@ class TableManager extends Component {
 
   constructor(props, context) {
     super(props, context)
+    this.state = { cityid: null }
 
     const len = columns.length
     columns[len - 1].render = (text, record, index) => {
@@ -62,17 +63,19 @@ class TableManager extends Component {
 
   componentDidMount() {
     this.loadTableData()
+    this.props.dispatch({ type: 'shopUserForm/loadCitys', payload: {} })
   }
 
-  loadTableData(page = 1, pageSize = 10) {
+  loadTableData(page = 1, pageSize = 10, cityid) {
     this.props.dispatch({
       type: 'shopUser/loadShopUser',
-      payload: { page, pageSize }
+      payload: { page, pageSize, cityid }
     })
   }
 
   tableChange(pagination) {
-    this.loadTableData(pagination.current, pagination.pageSize)
+    const cityid = this.state.cityid
+    this.loadTableData(pagination.current, pagination.pageSize, cityid)
   }
 
   selectRow(selectedRowKeys) {
@@ -101,7 +104,8 @@ class TableManager extends Component {
         ...record,
         status,
         page: this.props.pagination.current,
-        pageSize: this.props.pagination.pageSize
+        pageSize: this.props.pagination.pageSize,
+        cityid: this.state.cityid
       }
     })
   }
@@ -118,13 +122,17 @@ class TableManager extends Component {
               templateArr.push(v.template)
             }
           })
-          this.props.dispatch({
-            type: 'shopUser/removeShopUser',
-            payload: {
-              selectedRowKeys: this.props.selectedRowKeys,
-              templateArr
-            }
-          })
+          this.props
+            .dispatch({
+              type: 'shopUser/removeShopUser',
+              payload: {
+                selectedRowKeys: this.props.selectedRowKeys,
+                templateArr
+              }
+            })
+            .then(() => {
+              this.loadTableData(1, 10, this.state.cityid)
+            })
         }
       })
     } else {
@@ -135,7 +143,22 @@ class TableManager extends Component {
     }
   }
 
+  handleCityChange(value, selectedOptions) {
+    if (value.length > 0) {
+      this.setState({ cityid: value[1] })
+      this.loadTableData(1, 10, value[1])
+    } else {
+      this.setState({ cityid: null })
+      this.loadTableData(1, 10)
+    }
+  }
+
   render() {
+    const { citys } = this.props
+    const formItemLayout = {
+      labelCol: { span: 2 },
+      wrapperCol: { span: 4 }
+    }
     const rowSelection = {
       selectedRowKeys: this.props.selectedRowKeys,
       onChange: this.selectRow.bind(this)
@@ -150,6 +173,19 @@ class TableManager extends Component {
 
     return (
       <div className="content-inner">
+        <Form>
+          <FormItem {...formItemLayout} label="城市">
+            <Cascader
+              options={citys}
+              onChange={value => {
+                this.handleCityChange(value)
+              }}
+              placeholder="请选择城市"
+              maxLength="50"
+            />
+          </FormItem>
+        </Form>
+
         <div
           style={{
             paddingBottom: 10,
@@ -181,12 +217,13 @@ class TableManager extends Component {
   }
 }
 
-export default connect(({ shopUser }) => {
+export default connect(({ shopUser, shopUserForm }) => {
   return {
     list: shopUser.list,
     loading: shopUser.loading,
     total: shopUser.total,
     selectedRowKeys: shopUser.selectedRowKeys,
-    pagination: shopUser.pagination
+    pagination: shopUser.pagination,
+    citys: shopUserForm && shopUserForm.citys ? shopUserForm.citys : []
   }
-})(TableManager)
+})(Form.create()(TableManager))
