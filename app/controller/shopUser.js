@@ -8,7 +8,7 @@ exports.list = function*() {
       if (images.length > 0) {
         if (images.length >= 1) {
           user['image'] = images[0]
-          user['moreImages'] = images.slice(1, images.length - 1)
+          user['moreImages'] = images.slice(1, images.length)
         } else {
           user['image'] = images[0]
         }
