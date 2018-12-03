@@ -254,6 +254,9 @@ class TableView extends Component {
                     src={previewImage}
                   />
                 </Modal>
+                <p>
+                  请上传尺寸适合的图片，第一张为展示图片剩余图片点击查看更多展示
+                </p>
               </div>
             )}
           </FormItem>
