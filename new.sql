@@ -9,7 +9,7 @@ CREATE TABLE `web_provinces` (
    `provinceid` int(11) NOT NULL,
    `province` varchar(100) NOT NULL DEFAULT '',
    PRIMARY KEY (`id`)
- ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+ ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for web_cities
@@ -41,7 +41,7 @@ CREATE TABLE `web_shop_user` (
   `status` int(1) DEFAULT '1',
   `time` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 /*-- web_banner */
@@ -50,7 +50,7 @@ CREATE TABLE `web_banner` (
   `nid` int(11) NOT NULL AUTO_INCREMENT,
   `images` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 INSERT INTO `web_banner` (`nid`,`images`) VALUES (1,NULL);
 
  

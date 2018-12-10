@@ -67,8 +67,8 @@ class TableView extends Component {
   onSubmit(e) {
     const { fileList } = this.state
     e.preventDefault()
-    if (fileList.length !== 3) {
-      message.error('请上传3张图片！')
+    if (fileList.length < 3) {
+      message.error('请上传至少3张图片！')
       return
     }
     const fileNames = fileList
@@ -179,7 +179,7 @@ class TableView extends Component {
                   headers={{ Authorization: Cookie.get('SESSION_TOKEN') }}
                   beforeUpload={this.beforeUpload}
                 >
-                  {fileList.length >= 3 ? null : uploadButton}
+                  {fileList.length >= 20 ? null : uploadButton}
                 </Upload>
                 <Modal
                   visible={previewVisible}
